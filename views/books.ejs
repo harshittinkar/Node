@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book | Book Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <%- include('includes/nav.ejs') %>
+   <%if(isAdmin) { %>
+        <a href="/books/new">
+            <button style="border: 1px solid black;">Add New Book</button>
+        </a>
+        <a href="/admin/logout">Logout</a>
+    <% }%>
+   
+    <main>
+      <%  books.forEach(books=>{ %>
+            <h2>Title :<%= books.title %></h2>
+            <p>Author :<%= books.author %></p>
+            <p>Category :<%= books.category %></p>
+            <p>Price :<%= books.price %></p>
+            <img src="<%= books.img.startsWith('/') ? books.img : '/' + books.img %>" width="150">
+    <%if(isAdmin) { %>
+            <form action="/books/delete/<%= books._id %>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+            <br>
+            <form action="/books/edit/<%= books._id %>" method="GET">
+                <button type="submit">Update</button>
+            </form>
+    <% }%>
+            <hr>
+       <% }) %>
+    </main>
+    <%-include('includes/footer.ejs')  %>
+</body>
+</html>
